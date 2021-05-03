@@ -3,33 +3,32 @@
 int main()
 {
 	util::Platform platform;
-
-#if defined(_DEBUG)
-	std::cout << "Hello World!" << std::endl;
-#endif
-
 	sf::RenderWindow window;
-	// in Windows at least, this must be called before creating the window
-	float screenScalingFactor = platform.getScreenScalingFactor(window.getSystemHandle());
-	// Use the screenScalingFactor
-	window.create(sf::VideoMode(200.0f * screenScalingFactor, 200.0f * screenScalingFactor), "SFML works!");
+
+	window.create(sf::VideoMode(800, 600), "BlueMoon Game");
 	platform.setIcon(window.getSystemHandle());
 
 	sf::CircleShape shape(window.getSize().x / 2);
 	shape.setFillColor(sf::Color::White);
 
 	sf::Texture shapeTexture;
-	shapeTexture.loadFromFile("content/sfml.png");
+	shapeTexture.loadFromFile("assets/sfml.png");
 	shape.setTexture(&shapeTexture);
 
 	sf::Event event;
 
+	// Run the program as long as the window is open
 	while (window.isOpen())
 	{
+		// Check every events
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
+			switch (event.type)
+			{
+				case sf::Event::Closed:
+					window.close();
+					break;
+			}
 		}
 
 		window.clear();
@@ -38,4 +37,12 @@ int main()
 	}
 
 	return 0;
+}
+
+void func()
+{
+	// this function is started when thread.launch() is called
+
+	for (int i = 0; i < 10; ++i)
+		std::cout << "I'm thread number one" << std::endl;
 }
